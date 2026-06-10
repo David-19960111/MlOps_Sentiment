@@ -1,0 +1,68 @@
+name: MlOps CI/CD
+
+on:
+    push:
+        branches: [main, develop]
+    pull_request:
+        branches: [main]
+
+jobs:
+    train-and-test:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Checkput codigo
+            uses: actions/checkout@v4
+
+          - name: Setup Python
+            uses: actions/setup-python@v5
+            with:
+                python-version: "3.11"
+                cache: "pip"
+
+          - name: Instalar dependencias
+            run: pip install -r requirements.txt
+
+          - name: Preparar datos 
+            run: python src/data/prepare.py
+
+          - name: Entrenar modelo
+            run: python src/models/train.py 
+
+          - name: Ejecutar tests
+            run: pytest tests/ -v --tb=short
+
+          - name: Subir modelo como artefacto
+            uses: actions/upload-artifact@v4
+            with:
+                name: trained-model
+                path: models/model.pkl
+                retention-days: 7
+
+    build-docker:
+        needs: train-and-test
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
+
+        steps:
+            - name: Checkout codigo
+              uses: actions/checkout@v4 
+
+            - name: Bajar modelo entrenado
+              uses: actions/download-artifact@v4
+              with:
+                name: trained-model
+                path: models/
+
+            - name: Build imagen Docker
+              run: docker build -t mlops-sentiment:${{ github.sha }} .
+
+            - name: Smoke test del contenedor
+              run: |
+                docker run -d -p 8000:8000 --name test-api mlops-sentiment:${{ github.sha }}
+                sleep 5
+                curl -f http://localhost:8000/health
+                docker stop test-api
+
+            - name: Tag como latest
+              run: docker tag mlops-sentiment:${{ github.sha }} mlops-sentiment:latest

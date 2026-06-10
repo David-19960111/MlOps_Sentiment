@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ale_d/Desktop/mlops-sentiment/mlops-sentiment/mlruns/708023388520208171/a4807cf745c046c4b57281b09e4c1892/artifacts
+end_time: 1781121966778
+entry_point_name: ''
+experiment_id: '708023388520208171'
+lifecycle_stage: active
+run_id: a4807cf745c046c4b57281b09e4c1892
+run_name: handsome-donkey-992
+run_uuid: a4807cf745c046c4b57281b09e4c1892
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781121983550
+status: 3
+tags: []
+user_id: david_rojas

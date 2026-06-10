@@ -1,0 +1,6 @@
+artifact_location: file:///mnt/c/Users/ale_d/Desktop/mlops-sentiment/mlops-sentiment/mlruns/708023388520208171
+creation_time: 1781121632426
+experiment_id: '708023388520208171'
+last_update_time: 1781121632426
+lifecycle_stage: active
+name: sentiment-classifier
