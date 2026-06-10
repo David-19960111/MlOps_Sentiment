@@ -24,6 +24,7 @@ def train():
     X_test,  y_test  = test_df["text"],  test_df["label"]
 
     # MLflow: configurar experimento
+    mlflow.set_tracking_uri("mlruns")
     mlflow.set_experiment("sentiment-classifier")
 
     with mlflow.start_run():
