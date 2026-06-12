@@ -9,3 +9,5 @@ evidently==0.4.30
 pyyaml==6.0.1
 pytest==8.2.0
 httpx==0.27.0
+prometheus-client==0.21.1
+prometheus-fastapi-instrumentator==5.9.1

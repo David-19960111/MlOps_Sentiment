@@ -42,7 +42,7 @@ jobs:
     build-docker:
         needs: train-and-test
         runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
         steps:
             - name: Checkout codigo
@@ -64,5 +64,5 @@ jobs:
                 curl -f http://localhost:8000/health
                 docker stop test-api
 
-            - name: Tag como latest
+            - name: Tagg como latest
               run: docker tag mlops-sentiment:${{ github.sha }} mlops-sentiment:latest
